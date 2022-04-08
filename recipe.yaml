@@ -1,490 +1,167 @@
 $engine: 3
-$onesync: on
-name: QBCore Framework
-version: 2.2.1
-author: JericoFx & Kakarot & Hamy
-description: An advanced FiveM RP framework including jobs, gangs, housing & more!
+$onesync: legacy
+name: PlumeESXLegacy
+version: 3.3.0
+author: Tabarra & SaltySea
+description: A full featured and highly configurable yet lightweight ESX Legacy base that can be easily extended. 
 
 tasks:
-  #  Download Base Files
+  # Download default CFX resources
   - action: download_github
-    src: https://github.com/qbcore-framework/txAdminRecipe
+    src: https://github.com/citizenfx/cfx-server-data
+    ref: master
+    subpath: resources
+    dest: ./resources/[cfx-default]
+  
+  # Download and prepare server.cfg / loadingscreen / database
+  - action: download_github
+    src: https://github.com/tabarra/PlumeESX-recipe
     ref: main
-    dest: ./tmp/qbcore
+    dest: ./tmp/plume_esx
 
   - action: move_path
-    src: ./tmp/qbcore/server.cfg
+    src: ./tmp/plume_esx/server.cfg
     dest: ./server.cfg
 
   - action: move_path
-    src: ./tmp/qbcore/myLogo.png
-    dest: ./myLogo.png
+    src: ./tmp/plume_esx/loadingscreen
+    dest: ./resources/loadingscreen
 
-  # Prepare Database
   - action: connect_database
   - action: query_database
-    file: ./tmp/qbcore/qbcore.sql
-    
+    file: ./tmp/plume_esx/plume.sql
 
-  # STANDALONE
+  # Download basic resources and ESX dependencies
   - action: download_github
-    src: https://github.com/citizenfx/cfx-server-data
-    subpath: resources
-    dest: ./resources/[cfx-default]
-
-  - action: download_file
-    path: ./tmp/files/oxmysql-1.9.3.zip
-    url: https://github.com/overextended/oxmysql/releases/download/v1.9.3/oxmysql-v1.9.3.zip
-  - action: unzip
-    dest: ./resources/[standalone]
-    src: ./tmp/files/oxmysql-1.9.3.zip
-
-  - action: download_file
-    path: ./tmp/menuv.zip
-    url: https://github.com/ThymonA/menuv/releases/download/v1.4.1/menuv_v1.4.1.zip
-  - action: unzip
-    dest: ./resources/[standalone]/menuv
-    src: ./tmp/menuv.zip
+    src: https://github.com/esx-framework/esx-legacy
+    ref: 8153f6a9221baeef0affb0176e5811007b8f5e3b
+    dest: ./resources/[legacy]
 
   - action: download_github
-    dest: ./resources/[standalone]/bob74_ipl
-    ref: master
-    src: https://github.com/qbcore-framework/bob74_ipl
-    
-  - action: download_github
-    dest: ./resources/[standalone]/safecracker
-    ref: main
-    src: https://github.com/qbcore-framework/safecracker
-    
-  - action: download_github
-    dest: ./resources/[standalone]/screenshot-basic
-    ref: master
-    src: https://github.com/citizenfx/screenshot-basic
+    src: https://github.com/tabarra/simpledrift
+    ref: 2ed57c224ae70549fbcfccc957a00ff496b78c77
+    dest: ./resources/simpledrift
 
   - action: download_github
-    dest: ./resources/[standalone]/progressbar
-    ref: main
-    src: https://github.com/qbcore-framework/progressbar
+    src: https://github.com/Bob74/bob74_ipl
+    ref: e949c08c67bdfe3fb981bf4f77477faf26d187e6
+    dest: ./resources/bob74_ipl
+  
+  - action: download_github
+    src: https://github.com/brouznouf/fivem-mysql-async
+    ref: c5fa317a65acfe2eef453257e19e3b4fde137089
+    dest: ./resources/mysql-async
 
   - action: download_github
-    dest: ./resources/[standalone]/interact-sound
-    ref: master
-    src: https://github.com/qbcore-framework/interact-sound
-    
-  - action: download_github
-    dest: ./resources/[standalone]/mhacking
-    ref: main
-    src: https://github.com/qbcore-framework/mhacking
-
-  - action: download_github
-    dest: ./resources/[standalone]/connectqueue
-    ref: master
-    src: https://github.com/qbcore-framework/connectqueue
-
-  - action: download_github
-    dest: ./resources/[standalone]/dpemotes
-    ref: master
-    src: https://github.com/qbcore-framework/dpemotes
-
-  - action: download_github
-    dest: ./resources/[standalone]/PolyZone
-    ref: master
-    src: https://github.com/qbcore-framework/PolyZone
-    
-  - action: download_github
-    dest: ./resources/[standalone]/LegacyFuel
-    ref: master
-    src: https://github.com/qbcore-framework/LegacyFuel
-    
-  - action: download_file
-    path: ./tmp/files/vstancer-v1.4.0.zip
-    url: https://github.com/carmineos/fivem-vstancer/releases/download/v1.4/vstancer-v1.4.0.zip
-  - action: unzip
-    dest: ./resources/[standalone]
-    src: ./tmp/files/vstancer-v1.4.0.zip
-    
-    # VOICE
-  - action: download_github
-    dest: ./resources/[voice]/pma-voice
-    ref: main
     src: https://github.com/AvarianKnight/pma-voice
-
-  - action: download_github
-    dest: ./resources/[voice]/qb-radio
-    ref: main
-    src: https://github.com/qbcore-framework/qb-radio
-    
-    # MAPS
-  - action: download_github
-    dest: ./resources/[defaultmaps]/hospital_map
-    ref: main
-    src: https://github.com/qbcore-framework/hospital_map
-    
-  - action: download_github
-    dest: ./resources/[defaultmaps]/dealer_map
-    ref: main
-    src: https://github.com/qbcore-framework/dealer_map
-    
-  - action: download_github
-    dest: ./resources/[defaultmaps]/[prison_map]
-    ref: main
-    src: https://github.com/qbcore-framework/prison_map
-    
-  # Downloading QBCore resources
-  - action: download_github
-    dest: ./resources/[qb]/qb-core
-    ref: main
-    src: https://github.com/qbcore-framework/qb-core
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-gangmenu
-    ref: main
-    src: https://github.com/qbcore-framework/qb-gangmenu
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-scoreboard
-    ref: main
-    src: https://github.com/qbcore-framework/qb-scoreboard
-    
-  - action: download_github
-    dest: ./resources/[qb]/qb-adminmenu
-    ref: main
-    src: https://github.com/qbcore-framework/qb-adminmenu
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-multicharacter
-    ref: main
-    src: https://github.com/qbcore-framework/qb-multicharacter
-
-  - action: waste_time # prevent github throttling
-    seconds: 10
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-customs
-    ref: main
-    src: https://github.com/qbcore-framework/qb-customs
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-vehiclesales
-    ref: main
-    src: https://github.com/qbcore-framework/qb-vehiclesales
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-vehicleshop
-    ref: main
-    src: https://github.com/qbcore-framework/qb-vehicleshop
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-houserobbery
-    ref: main
-    src: https://github.com/qbcore-framework/qb-houserobbery
-    
-  - action: download_github
-    dest: ./resources/[qb]/qb-prison
-    ref: main
-    src: https://github.com/qbcore-framework/qb-prison
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-blackjack
-    ref: main
-    src: https://github.com/qbcore-framework/qb-blackjack
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-atms
-    ref: main
-    src: https://github.com/qbcore-framework/qb-atms
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-ifruitstore
-    ref: main
-    src: https://github.com/qbcore-framework/qb-ifruitstore
-    
-  - action: download_github
-    dest: ./resources/[qb]/qb-hud
-    ref: main
-    src: https://github.com/qbcore-framework/qb-hud
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-bossmenu
-    ref: main
-    src: https://github.com/qbcore-framework/qb-bossmenu
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-weed
-    ref: main
-    src: https://github.com/qbcore-framework/qb-weed
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-lapraces
-    ref: main
-    src: https://github.com/qbcore-framework/qb-lapraces
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-inventory
-    ref: main
-    src: https://github.com/qbcore-framework/qb-inventory
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-houses
-    ref: main
-    src: https://github.com/qbcore-framework/qb-houses
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-garages
-    ref: main
-    src: https://github.com/qbcore-framework/qb-garages
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-ambulancejob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-ambulancejob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-vehiclefailure
-    ref: main
-    src: https://github.com/qbcore-framework/qb-vehiclefailure
-
-  - action: waste_time # prevent github throttling
-    seconds: 10
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-radialmenu
-    ref: main
-    src: https://github.com/qbcore-framework/qb-radialmenu
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-crypto
-    ref: main
-    src: https://github.com/qbcore-framework/qb-crypto
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-weathersync
-    ref: main
-    src: https://github.com/qbcore-framework/qb-weathersync
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-policejob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-policejob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-traphouse
-    ref: main
-    src: https://github.com/qbcore-framework/qb-traphouse
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-apartments
-    ref: main
-    src: https://github.com/qbcore-framework/qb-apartments
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-vehiclekeys
-    ref: main
-    src: https://github.com/qbcore-framework/qb-vehiclekeys
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-mechanicjob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-mechanicjob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-phone
-    ref: main
-    src: https://github.com/qbcore-framework/qb-phone
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-vineyard
-    ref: main
-    src: https://github.com/qbcore-framework/qb-vineyard
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-weapons
-    ref: main
-    src: https://github.com/qbcore-framework/qb-weapons
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-scrapyard
-    ref: main
-    src: https://github.com/qbcore-framework/qb-scrapyard
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-tunerchip
-    ref: main
-    src: https://github.com/qbcore-framework/qb-tunerchip
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-towjob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-towjob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-streetraces
-    ref: main
-    src: https://github.com/qbcore-framework/qb-streetraces
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-storerobbery
-    ref: main
-    src: https://github.com/qbcore-framework/qb-storerobbery
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-spawn
-    ref: main
-    src: https://github.com/qbcore-framework/qb-spawn
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-skillbar
-    ref: main
-    src: https://github.com/qbcore-framework/qb-skillbar
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-smallresources
-    ref: main
-    src: https://github.com/qbcore-framework/qb-smallresources
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-recyclejob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-recyclejob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-diving
-    ref: main
-    src: https://github.com/qbcore-framework/qb-diving
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-cityhall
-    ref: main
-    src: https://github.com/qbcore-framework/qb-cityhall
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-casino
-    ref: main
-    src: https://github.com/qbcore-framework/qb-casino
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-anticheat
-    ref: main
-    src: https://github.com/qbcore-framework/qb-anticheat
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-truckrobbery
-    ref: main
-    src: https://github.com/qbcore-framework/qb-truckrobbery
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-pawnshop
-    ref: main
-    src: https://github.com/qbcore-framework/qb-pawnshop
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-taxijob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-taxijob
-    
-  - action: download_github
-    dest: ./resources/[qb]/qb-busjob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-busjob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-newsjob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-newsjob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-jewelery
-    ref: main
-    src: https://github.com/qbcore-framework/qb-jewelery
-
-  - action: waste_time # prevent github throttling
-    seconds: 10
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-bankrobbery
-    ref: main
-    src: https://github.com/qbcore-framework/qb-bankrobbery
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-truckerjob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-truckerjob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-keyminigame
-    ref: main
-    src: https://github.com/qbcore-framework/qb-keyminigame
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-fitbit
-    ref: main
-    src: https://github.com/qbcore-framework/qb-fitbit
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-commandbinding
-    ref: main
-    src: https://github.com/qbcore-framework/qb-commandbinding
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-banking
-    ref: main
-    src: https://github.com/qbcore-framework/qb-banking
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-clothing
-    ref: main
-    src: https://github.com/qbcore-framework/qb-clothing
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-hotdogjob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-hotdogjob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-doorlock
-    ref: main
-    src: https://github.com/qbcore-framework/qb-doorlock
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-garbagejob
-    ref: main
-    src: https://github.com/qbcore-framework/qb-garbagejob
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-drugs
-    ref: main
-    src: https://github.com/qbcore-framework/qb-drugs
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-shops
-    ref: main
-    src: https://github.com/qbcore-framework/qb-shops
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-lockpick
-    ref: main
-    src: https://github.com/qbcore-framework/qb-lockpick
-
-  - action: download_github
-    dest: ./resources/[qb]/qb-interior
-    ref: main
-    src: https://github.com/qbcore-framework/qb-interior
-    
-  - action: download_github
-    dest: ./resources/[qb]/qb-menu
-    ref: main
-    src: https://github.com/qbcore-framework/qb-menu
-    
-  - action: download_github
-    dest: ./resources/[qb]/qb-input
-    ref: main
-    src: https://github.com/qbcore-framework/qb-input
-    
-  - action: download_github
-    dest: ./resources/[qb]/qb-loading
-    ref: main
-    src: https://github.com/qbcore-framework/qb-loading
-
-  # Clean up
+    ref: 4754a4dfff1e897f14df6d7d0e06c7fbfbaa20d5
+    dest: ./resources/pma-voice
+
+  - action: download_github
+    src: https://github.com/AvarianKnight/rp-radio
+    ref: 558e14d3eb7eed62e780a30c2867eadb61ffe0ac
+    dest: ./resources/rp-radio
+
+  - action: download_github
+    src: https://github.com/thelindat/linden_outlawalert
+    ref: a28b0ab65b1a4a9fed4063a26566cf697c263fc8
+    dest: ./resources/shotspotter
+
+  ## GCPhone stuff
+  - action: download_file
+    url: https://github.com/Re-Ignited-Development/Re-Ignited-Phone/releases/download/V1.5/resources-1.2.zip
+    path: ./tmp/gcphone.zip
+  - action: unzip
+    src: ./tmp/gcphone.zip
+    dest: ./tmp
+  - action: move_path
+    src: ./tmp/resources-1.2/gcphone
+    dest: ./resources/gcphone
+
+  ## vstancer stuff
+  - action: download_file
+    url: https://github.com/carmineos/fivem-vstancer/releases/download/v1.4/vstancer-v1.4.0.zip
+    path: ./tmp/vstancer.zip
+  - action: unzip
+    src: ./tmp/vstancer.zip
+    dest: ./tmp
+  - action: move_path
+    src: ./tmp/vstancer
+    dest: ./resources/vstancer
+
+
+  ## Downloading & Patching configs: cosmo hud
+  - action: download_github
+    src: https://github.com/nojdh/cosmo_hud
+    ref: eed8fd7b8cbe8a02ae7339d4dee05b5d56a8097c
+    subpath: cosmo_hud
+    dest: ./resources/[hud]/cosmo_hud
+
+  - action: replace_string
+    file: ./resources/shotspotter/config.lua
+    search: 'Config.Default911 = false'
+    replace: 'Config.Default911 = true'
+
+  - action: replace_string
+    file: ./resources/[legacy]/[esx_addons]/esx_status/config.lua
+    search: "    Config.Display        = true"
+    replace: "    Config.Display        = false"
+
+  - action: replace_string
+    file: ./resources/[hud]/cosmo_hud/config.lua
+    search: 'Config.AlwaysShowRadar = false'
+    replace: 'Config.AlwaysShowRadar = true'
+
+  ## Patching configs: esx_basicneeds
+  - action: replace_string
+    file: ./resources/[legacy]/[esx_addons]/esx_basicneeds/config.lua
+    search: 'Config.Visible = true'
+    replace: 'Config.Visible = false'
+
+  ## Patching configs: multicharacter 
+  - action: replace_string
+    file: ./resources/[legacy]/[esx]/es_extended/config.lua
+    search: 'Config.Multichar                = false'
+    replace: 'Config.Multichar = true '
+
+  - action: replace_string
+    file: ./resources/[legacy]/[esx_addons]/esx_multicharacter/server/main.lua
+    search: "Config.Database = 'es_extended'"
+    replace: "Config.Database = '{{dbName}}'"
+
+
+  ## Patching configs: rp-radio
+  - action: replace_string
+    file: ./resources/rp-radio/config.lua
+    search: |
+      Name = "INPUT_REPLAY_START_STOP_RECORDING_SECONDARY", -- Control name"
+    replace: | 
+      Name = "INPUT_SELECT_CHARACTER_MICHAEL", -- Control name"
+
+  - action: replace_string
+    file: ./resources/rp-radio/config.lua
+    search: 'Key = 289, -- F2'
+    replace: 'Key = 166, -- F5'
+
+  - action: replace_string
+    mode: all_vars
+    file: 
+    - ./resources/loadingscreen/config.js
+    - ./resources/[legacy]/[esx_addons]/esx_multicharacter/server/main.lua
+
+  
+  ## Cleanup
   - action: remove_path
     path: ./tmp
+  - action: remove_path
+    path: ./resources/esx_example
+  - action: remove_path
+    path: ./resources/server.cfg
+  - action: remove_path
+    path: ./resources/[legacy]/esx_example
+  - action: remove_path
+    path: ./resources/[legacy]/[esx_addons]/esx_whitelist
+  - action: remove_path
+    path: ./resources/[legacy]/[esx_addons]/esx_voice
+  - action: remove_path
+    path: ./resources/[legacy]/[esx_addons]/esx_phone
